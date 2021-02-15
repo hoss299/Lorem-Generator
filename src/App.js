@@ -1,24 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+import data from "./data";
 
 function App() {
+  const [number, setNumber] = useState(0);
+  const [parags, setParags] = useState([]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    let amount = parseInt(number);
+    if (number <= 0) {
+      amount = 1;
+    }
+    if (number > 8) {
+      amount = 8;
+    }
+    setParags(data.slice(0, amount));
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <section className="App">
+      <h2>Tired of boring lorem ipsum?</h2>
+      <form>
+        <div className="form-control">
+          <label htmlFor="numOF">Paragraphs: </label>
+          <input
+            type="number"
+            id="numOf"
+            value={number}
+            onChange={(e) => setNumber(e.target.value)}
+          />
+          <button type="submit" onClick={handleSubmit}>
+            Generate
+          </button>
+        </div>
+      </form>
+
+      {parags.map((parag, index) => {
+        return (
+          <div key={index} className="parag">
+            <p>{parag}</p>
+          </div>
+        );
+      })}
+    </section>
   );
 }
 
